@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SitiraSama</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_penitipan">Peniitipan</string>
+    <string name="title_barangditolak">Barang Ditolak</string>
+    <string name="title_profil">Profil</string>
+</resources>
