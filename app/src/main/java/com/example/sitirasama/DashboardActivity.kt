@@ -1,13 +1,14 @@
 package com.example.sitirasama
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.sitirasama.databinding.ActivityDashboardBinding
+import com.example.sitirasama.service.ApiClient
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -19,7 +20,10 @@ class DashboardActivity : AppCompatActivity() {
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Set Toolbar sebagai ActionBar
+        // ✅ Inisialisasi ApiClient sebelum menggunakan API
+        ApiClient.init(this)
+
+        // ✅ Pastikan Toolbar sudah di-set sebagai ActionBar
         setSupportActionBar(binding.toolbar)
 
         val navView: BottomNavigationView = binding.navView
@@ -27,11 +31,12 @@ class DashboardActivity : AppCompatActivity() {
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_penitipan, R.id.navigation_barangditolak
+                R.id.navigation_home,
+                R.id.navigation_penitipan,
+                R.id.navigation_barangditolak
             )
         )
 
-        // Gunakan Toolbar sebagai ActionBar
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }

@@ -7,6 +7,11 @@
         android:title="@string/title_home" />
 
     <item
+        android:id="@+id/navigation_pengajuan"
+        android:icon="@drawable/baseline_folder_24"
+        android:title="@string/title_pengajuan" />
+
+    <item
         android:id="@+id/navigation_penitipan"
         android:icon="@drawable/baseline_folder_24"
         android:title="@string/title_penitipan" />

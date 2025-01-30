@@ -1,42 +1,70 @@
 package com.example.sitirasama.ui.profil
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.sitirasama.databinding.FragmentProfilBinding
+import com.example.sitirasama.MainActivity
+import com.example.sitirasama.R
+import com.example.sitirasama.model.UserResponse
+import com.example.sitirasama.service.ApiClient
+import com.example.sitirasama.util.SessionManager
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ProfilFragment : Fragment() {
 
-    private var _binding: FragmentProfilBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var sessionManager: SessionManager
+    private lateinit var textEmail: TextView
+    private lateinit var textUsername: TextView
+    private lateinit var textStatus: TextView
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val profilViewModel =
-            ViewModelProvider(this).get(ProfilViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_profil, container, false)
+        sessionManager = SessionManager(requireContext())
 
-        _binding = FragmentProfilBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        textEmail = root.findViewById(R.id.textEmail)
+        textUsername = root.findViewById(R.id.textUsername)
+        textStatus = root.findViewById(R.id.textStatus)
+        val logoutButton = root.findViewById<Button>(R.id.logoutButton)
 
-        val textView: TextView = binding.textProfil
-        profilViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        // 🔹 Panggil API untuk mendapatkan data pengguna
+        getUserProfile()
+
+        logoutButton.setOnClickListener {
+            sessionManager.clearSession()
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
         }
+
         return root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun getUserProfile() {
+        ApiClient.apiService.getProfil().enqueue(object : Callback<UserResponse> {
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                if (response.isSuccessful) {
+                    val user = response.body()
+                    textEmail.text = user?.email ?: "Tidak tersedia"
+                    textUsername.text = user?.username ?: "Tidak tersedia"
+                    textStatus.text = user?.status ?: "Tidak tersedia"
+                } else {
+                    Toast.makeText(context, "Gagal mengambil data profil!", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                Toast.makeText(context, "Terjadi kesalahan: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

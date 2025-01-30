@@ -4,6 +4,10 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 class UserResponse {
+    @SerializedName("accessToken")  // ✅ Periksa apakah API mengembalikan token dengan nama ini
+    @Expose
+    var accessToken: String? = null
+
     @SerializedName("username")
     @Expose
     var username: String? = null

@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/navigation_pengajuan"
+        android:name="com.example.sitirasama.ui.pengajuan.PengajuanFragment"
+        android:label="@string/title_pengajuan"
+        tools:layout="@layout/fragment_pengajuan" />
+
+    <fragment
         android:id="@+id/navigation_penitipan"
         android:name="com.example.sitirasama.ui.penitipan.PenitipanFragment"
         android:label="@string/title_penitipan"

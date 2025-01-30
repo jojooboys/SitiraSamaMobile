@@ -1,4 +1,4 @@
-package com.example.sitirasama.ui.barangditolak
+package com.example.sitirasama.ui.pengajuan
 
 import android.os.Bundle
 import android.util.Log
@@ -12,39 +12,39 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sitirasama.R
 import com.example.sitirasama.model.UserResponse
 import com.example.sitirasama.service.ApiClient
+import com.example.sitirasama.util.SessionManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class BarangditolakFragment : Fragment() {
+class PengajuanFragment : Fragment() {
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: BarangditolakAdapter
-    private var token: String? = null
+    private lateinit var recyclerViewPengajuan: RecyclerView
+    private lateinit var adapter: PengajuanAdapter
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val root = inflater.inflate(R.layout.fragment_barangditolak, container, false)
+        val root = inflater.inflate(R.layout.fragment_pengajuan, container, false)
+        sessionManager = SessionManager(requireContext())
 
-        recyclerView = root.findViewById(R.id.recyclerViewBarangDitolak)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerViewPengajuan = root.findViewById(R.id.recyclerViewPengajuan)
+        recyclerViewPengajuan.layoutManager = LinearLayoutManager(context)
 
-        token = "Bearer " + activity?.intent?.getStringExtra("TOKEN")
-
-        fetchBarangDitolak()
+        fetchPengajuan()
 
         return root
     }
 
-    private fun fetchBarangDitolak() {
-        ApiClient.apiService.getBarangDitolak().enqueue(object : Callback<List<UserResponse>> {
+    private fun fetchPengajuan() {
+        ApiClient.apiService.getPengajuan().enqueue(object : Callback<List<UserResponse>> {
             override fun onResponse(call: Call<List<UserResponse>>, response: Response<List<UserResponse>>) {
                 if (response.isSuccessful) {
-                    val barangDitolakList = response.body()
-                    Log.d("API_DEBUG", "Barang Ditolak: ${barangDitolakList?.size}")
+                    val pengajuanList = response.body()
+                    Log.d("API_DEBUG", "Pengajuan: ${pengajuanList?.size}")
                 } else {
-                    Log.e("API_DEBUG", "Gagal mengambil barang ditolak: ${response.errorBody()?.string()}")
+                    Log.e("API_DEBUG", "Gagal mengambil pengajuan: ${response.errorBody()?.string()}")
                 }
             }
 
