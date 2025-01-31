@@ -52,9 +52,13 @@ class PengajuanFragment : Fragment() {
         searchBarang = root.findViewById(R.id.searchBarang)
         searchDeskripsi = root.findViewById(R.id.searchDeskripsi)
 
+        // 🔹 Inisialisasi adapter lebih awal dengan list kosong untuk menghindari crash
+        adapter = PengajuanAdapter(emptyList()) { item -> showDetailFragment(item) }
+        recyclerViewPengajuan.adapter = adapter
+
         setupCheckboxListeners()
         setupSearchListeners()
-        fetchPengajuan()
+        fetchPengajuan() // 🔹 Panggil API untuk mendapatkan data
 
         return root
     }
@@ -70,7 +74,9 @@ class PengajuanFragment : Fragment() {
         checkboxes.forEach { (checkbox, searchBar) ->
             checkbox.setOnCheckedChangeListener { _, isChecked ->
                 searchBar.visibility = if (isChecked) View.VISIBLE else View.GONE
-                filterPengajuan()
+                if (::adapter.isInitialized) { // 🔹 Pastikan adapter sudah diinisialisasi sebelum filtering
+                    filterPengajuan()
+                }
             }
         }
     }
@@ -80,7 +86,9 @@ class PengajuanFragment : Fragment() {
         searchFields.forEach { editText ->
             editText.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
-                    filterPengajuan()
+                    if (::adapter.isInitialized) { // 🔹 Pastikan adapter sudah ada sebelum filtering
+                        filterPengajuan()
+                    }
                 }
 
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -95,6 +103,8 @@ class PengajuanFragment : Fragment() {
                 if (response.isSuccessful) {
                     pengajuanList = response.body() ?: emptyList()
                     filteredList = pengajuanList
+
+                    // 🔹 Update adapter dengan data baru
                     adapter = PengajuanAdapter(filteredList) { item -> showDetailFragment(item) }
                     recyclerViewPengajuan.adapter = adapter
                 } else {
@@ -109,6 +119,8 @@ class PengajuanFragment : Fragment() {
     }
 
     private fun filterPengajuan() {
+        if (!::adapter.isInitialized) return // 🔹 Cegah crash jika adapter belum diinisialisasi
+
         val idFilter = searchId.text.toString().trim()
         val usernameFilter = searchUsername.text.toString().trim()
         val barangFilter = searchBarang.text.toString().trim()
