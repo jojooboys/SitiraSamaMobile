@@ -23,7 +23,7 @@ class DetailbarangditolakFragment : Fragment() {
     private var barangDitolak: UserResponse? = null
     private lateinit var btnDelete: Button
     private lateinit var btnUpdateAlasan: Button
-    private lateinit var txtAlasan: TextView // ✅ Tambahkan deklarasi txtAlasan di sini
+    private lateinit var txtAlasan: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val root = inflater.inflate(R.layout.fragment_detailbarangditolak, container, false)
@@ -32,11 +32,10 @@ class DetailbarangditolakFragment : Fragment() {
         // ✅ Log debugging untuk melihat arguments yang diterima
         Log.d("Detailbarangditolak", "Menerima arguments: ${arguments?.keySet()}")
 
-        // ✅ Coba ambil data dari arguments
         barangDitolak = arguments?.getSerializable("barangDitolak") as? UserResponse
         Log.d("Detailbarangditolak", "Data yang diterima: $barangDitolak")
 
-        // ✅ Cek apakah data diterima dengan benar
+        // ✅ Jika data tidak diterima, navigasi kembali
         if (barangDitolak == null) {
             Log.e("Detailbarangditolak", "Barang ditolak null setelah parsing.")
             Toast.makeText(context, "Data tidak ditemukan!", Toast.LENGTH_SHORT).show()
@@ -46,16 +45,21 @@ class DetailbarangditolakFragment : Fragment() {
 
         val txtBarang: TextView = root.findViewById(R.id.textBarang)
         val txtDeskripsi: TextView = root.findViewById(R.id.textDeskripsi)
-        txtAlasan = root.findViewById(R.id.textAlasan) // ✅ Pastikan txtAlasan dideklarasikan setelah root
+        txtAlasan = root.findViewById(R.id.textAlasan)
 
         btnDelete = root.findViewById(R.id.btnDeleteBarangDitolak)
         btnUpdateAlasan = root.findViewById(R.id.btnUpdateAlasan)
 
-        // ✅ Pastikan data yang diterima ditampilkan di UI
+        // ✅ Setel tombol ke GONE sebagai default
+        btnDelete.visibility = View.GONE
+        btnUpdateAlasan.visibility = View.GONE
+
+        // ✅ Tampilkan data barang ditolak
         txtBarang.text = barangDitolak?.barang ?: "Barang tidak diketahui"
         txtDeskripsi.text = barangDitolak?.deskripsi ?: "Deskripsi tidak diketahui"
         txtAlasan.text = barangDitolak?.alasan ?: "Alasan belum ditambahkan"
 
+        // ✅ Cek status pengguna untuk menentukan visibilitas tombol
         getUserProfile { status ->
             if (status == "satpam") {
                 btnDelete.visibility = View.VISIBLE
@@ -63,8 +67,11 @@ class DetailbarangditolakFragment : Fragment() {
 
                 btnDelete.setOnClickListener { confirmDelete() }
                 btnUpdateAlasan.setOnClickListener { navigateToAlasanFragment() }
+            } else {
+                Log.d("Detailbarangditolak", "Tombol disembunyikan untuk akun mahasiswa.")
             }
         }
+
         return root
     }
 
@@ -79,7 +86,6 @@ class DetailbarangditolakFragment : Fragment() {
             txtAlasan.text = newAlasan ?: "Alasan belum ditambahkan"
         }
     }
-
 
     private fun confirmDelete() {
         AlertDialog.Builder(requireContext())
