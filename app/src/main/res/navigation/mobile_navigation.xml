@@ -40,6 +40,27 @@
         android:label="@string/title_profil"
         tools:layout="@layout/fragment_profil" />
 
+    <fragment
+        android:id="@+id/ubahProfilFragment"
+        android:name="com.example.sitirasama.ui.profil.UbahprofilFragment"
+        android:label="Ubah Profil"
+        tools:layout="@layout/fragment_ubahprofil"/>
+
+    <action
+        android:id="@+id/action_profilFragment_to_ubahProfilFragment"
+        app:destination="@id/ubahProfilFragment"/>
+
+    <fragment
+        android:id="@+id/ubahPasswordFragment"
+        android:name="com.example.sitirasama.ui.profil.UbahpasswordFragment"
+        android:label="Ubah Password"
+        tools:layout="@layout/fragment_ubahpassword"/>
+
+    <action
+        android:id="@+id/action_profilFragment_to_ubahPasswordFragment"
+        app:destination="@id/ubahPasswordFragment"/>
+
+
     <!-- Form Pengajuan Fragment -->
     <fragment
         android:id="@+id/formPengajuanFragment"

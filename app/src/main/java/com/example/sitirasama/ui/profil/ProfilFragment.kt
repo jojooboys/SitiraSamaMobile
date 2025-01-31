@@ -5,10 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.sitirasama.MainActivity
 import com.example.sitirasama.R
 import com.example.sitirasama.model.UserResponse
@@ -24,10 +23,10 @@ class ProfilFragment : Fragment() {
     private lateinit var textEmail: TextView
     private lateinit var textUsername: TextView
     private lateinit var textStatus: TextView
+    private lateinit var btnUbahEmail: Button
+    private lateinit var btnUbahPassword: Button
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val root = inflater.inflate(R.layout.fragment_profil, container, false)
         sessionManager = SessionManager(requireContext())
 
@@ -35,6 +34,8 @@ class ProfilFragment : Fragment() {
         textUsername = root.findViewById(R.id.textUsername)
         textStatus = root.findViewById(R.id.textStatus)
         val logoutButton = root.findViewById<Button>(R.id.logoutButton)
+        btnUbahEmail = root.findViewById(R.id.btnUbahEmail)
+        btnUbahPassword = root.findViewById(R.id.btnUbahPassword)
 
         // 🔹 Panggil API untuk mendapatkan data pengguna
         getUserProfile()
@@ -44,6 +45,14 @@ class ProfilFragment : Fragment() {
             val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
             activity?.finish()
+        }
+
+        btnUbahEmail.setOnClickListener {
+            findNavController().navigate(R.id.action_profilFragment_to_ubahProfilFragment)
+        }
+
+        btnUbahPassword.setOnClickListener {
+            findNavController().navigate(R.id.action_profilFragment_to_ubahPasswordFragment)
         }
 
         return root

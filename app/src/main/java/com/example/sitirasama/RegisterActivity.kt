@@ -66,10 +66,10 @@ class RegisterActivity : AppCompatActivity() {
 
         // Register Button Click Listener
         registerButton.setOnClickListener {
-            val username = usernameEditText.text.toString()
-            val email = emailEditText.text.toString()
-            val password = passwordEditText.text.toString()
-            val confirmPassword = confirmPasswordEditText.text.toString()
+            val username = usernameEditText.text.toString().trim()
+            val email = emailEditText.text.toString().trim()
+            val password = passwordEditText.text.toString().trim()
+            val confirmPassword = confirmPasswordEditText.text.toString().trim()
             val status = selectedStatus
 
             if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
@@ -77,8 +77,13 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (password.length < 6) {
+                showToast("Password harus minimal 6 karakter!")
+                return@setOnClickListener
+            }
+
             if (password != confirmPassword) {
-                showToast("Password dan Confirm Password harus sama!")
+                showToast("Password dan Konfirmasi Password harus sama!")
                 return@setOnClickListener
             }
 
