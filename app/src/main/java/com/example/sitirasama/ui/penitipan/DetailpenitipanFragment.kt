@@ -34,6 +34,10 @@ class DetailpenitipanFragment : Fragment() {
         btnDelete = root.findViewById(R.id.btnDeletePenitipan)
         btnUpdate = root.findViewById(R.id.btnUpdateStatusPenitipan)
 
+        // ✅ Pastikan tombol TIDAK MUNCUL sebelum status pengguna didapatkan
+        btnDelete.visibility = View.GONE
+        btnUpdate.visibility = View.GONE
+
         txtBarang.text = penitipan?.barang
         txtDeskripsi.text = penitipan?.deskripsi
 
@@ -41,30 +45,27 @@ class DetailpenitipanFragment : Fragment() {
         getUserProfile { status ->
             userStatus = status
             if (userStatus == "satpam") {
+                btnDelete.visibility = View.VISIBLE
+                btnUpdate.visibility = View.VISIBLE
+
                 btnDelete.setOnClickListener { deletePenitipan() }
                 btnUpdate.setOnClickListener { updateStatusPenitipan() }
-            } else {
-                btnDelete.visibility = View.GONE
-                btnUpdate.visibility = View.GONE
             }
         }
         return root
     }
 
-
     private fun deletePenitipan() {
-        // Tampilkan dialog konfirmasi sebelum menghapus
         AlertDialog.Builder(requireContext())
             .setTitle("Konfirmasi Hapus")
             .setMessage("Apakah Anda yakin ingin menghapus barang ini dari penitipan?")
             .setPositiveButton("Yes") { _, _ ->
-                // Jika pengguna memilih "Yes", lakukan penghapusan
                 penitipan?.id?.let { id ->
                     ApiClient.apiService.deleteBarang(id).enqueue(object : Callback<ResponseBody> {
                         override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                             if (response.isSuccessful) {
                                 Toast.makeText(context, "Barang berhasil dihapus", Toast.LENGTH_SHORT).show()
-                                findNavController().navigateUp() // Kembali ke PenitipanFragment
+                                findNavController().navigateUp()
                             } else {
                                 Toast.makeText(context, "Gagal menghapus barang", Toast.LENGTH_SHORT).show()
                             }
@@ -76,34 +77,30 @@ class DetailpenitipanFragment : Fragment() {
                     })
                 }
             }
-            .setNegativeButton("No", null) // Jika "No", tidak ada aksi yang dilakukan
+            .setNegativeButton("No", null)
             .show()
     }
 
     private fun updateStatusPenitipan() {
-        // Pastikan penitipan tidak null
         if (penitipan == null) {
             Toast.makeText(context, "Data tidak tersedia", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Tentukan status baru berdasarkan status saat ini
         val currentStatus = penitipan?.statuspenitipan ?: return
         val newStatus = if (currentStatus == "Dalam Penitipan") "Sudah Dikembalikan" else "Dalam Penitipan"
 
-        // Tampilkan dialog konfirmasi sebelum mengubah status
         AlertDialog.Builder(requireContext())
             .setTitle("Konfirmasi Perubahan Status")
             .setMessage("Anda yakin mengubah status penitipan barang ini?")
             .setPositiveButton("Yes") { _, _ ->
-                // Jika pengguna memilih "Yes", lakukan update status
                 penitipan?.id?.let { id ->
                     ApiClient.apiService.patchBarang(id, UserRequest(statuspenitipan = newStatus))
                         .enqueue(object : Callback<ResponseBody> {
                             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                                 if (response.isSuccessful) {
                                     Toast.makeText(context, "Status diperbarui menjadi $newStatus", Toast.LENGTH_SHORT).show()
-                                    findNavController().navigateUp() // Kembali ke PenitipanFragment
+                                    findNavController().navigateUp()
                                 } else {
                                     Toast.makeText(context, "Gagal memperbarui status", Toast.LENGTH_SHORT).show()
                                 }
@@ -115,10 +112,9 @@ class DetailpenitipanFragment : Fragment() {
                         })
                 }
             }
-            .setNegativeButton("No", null) // Jika "No", tidak ada aksi yang dilakukan
+            .setNegativeButton("No", null)
             .show()
     }
-
 
     private fun getUserProfile(callback: (String?) -> Unit) {
         ApiClient.apiService.getProfil().enqueue(object : Callback<UserResponse> {
