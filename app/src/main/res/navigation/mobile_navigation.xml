@@ -62,4 +62,19 @@
         android:id="@+id/action_navigation_pengajuan_to_detailpengajuanFragment"
         app:destination="@id/detailpengajuanFragment" />
 
+    <fragment
+        android:id="@+id/detailPenitipanFragment"
+        android:name="com.example.sitirasama.ui.penitipan.DetailpenitipanFragment"
+        android:label="Detail Penitipan"
+        tools:layout="@layout/fragment_detailpenitipan">
+        <argument
+            android:name="penitipan"
+            app:argType="com.example.sitirasama.model.UserResponse"
+            app:nullable="false" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_navigation_penitipan_to_detailPenitipanFragment"
+        app:destination="@id/detailPenitipanFragment" />
+
 </navigation>
