@@ -35,10 +35,10 @@ interface UsersAPI {
     fun getPengajuan(): Call<List<UserResponse>>  // ✅ Hapus parameter `token`
 
     @PATCH("api/auth/pengajuan")
-    fun patchPengajuan(@Body request: UserRequest): Call<UserResponse>  // ✅ Hapus parameter `token`
+    fun patchPengajuan(@Body request: UserRequest): Call<ResponseBody>  // ✅ Hapus parameter `token`
 
     @DELETE("api/auth/pengajuan/{id}")
-    fun deletePengajuan(@Path("id") id: Int): Call<String>  // ✅ Hapus parameter `token`
+    fun deletePengajuan(@Path("id") id: Int): Call<ResponseBody>  // ✅ Hapus parameter `token`
 
     // 🔹 Endpoint untuk Penitipan Barang
     @GET("api/auth/barang")

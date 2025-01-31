@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -53,6 +54,7 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation ("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation ("androidx.navigation:navigation-ui-ktx:2.7.7")
+    implementation ("androidx.cardview:cardview:1.0.0")
 
     // Retrofit untuk komunikasi dengan API
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
@@ -60,6 +62,14 @@ dependencies {
 
     // OkHttp untuk logging request/response API
     implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
+
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+
+    // ✅ Tambahkan dependency Safe Args jika belum ada
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:2.7.7")
+
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

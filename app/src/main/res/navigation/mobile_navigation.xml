@@ -45,4 +45,21 @@
         android:id="@+id/action_navigation_home_to_formPengajuanFragment"
         app:destination="@id/formPengajuanFragment" />
 
+    <fragment
+        android:id="@+id/detailpengajuanFragment"
+        android:name="com.example.sitirasama.ui.pengajuan.DetailpengajuanFragment"
+        android:label="Detail Pengajuan"
+        tools:layout="@layout/fragment_detailpengajuan">
+
+        <argument
+            android:name="pengajuan"
+            app:argType="com.example.sitirasama.model.UserResponse"
+            app:nullable="false" />
+    </fragment>
+
+
+    <action
+        android:id="@+id/action_navigation_pengajuan_to_detailpengajuanFragment"
+        app:destination="@id/detailpengajuanFragment" />
+
 </navigation>

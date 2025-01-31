@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -15,11 +16,82 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
+    <!-- Filter Section -->
+    <LinearLayout
+        android:id="@+id/filterLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/titlePengajuan"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/checkId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID"
+                android:checked="true"/>
+
+            <CheckBox
+                android:id="@+id/checkUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username"/>
+
+            <CheckBox
+                android:id="@+id/checkBarang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Barang"/>
+
+            <CheckBox
+                android:id="@+id/checkDeskripsi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Deskripsi"/>
+        </LinearLayout>
+
+        <!-- Search Inputs -->
+        <EditText
+            android:id="@+id/searchId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Isikan ID"/>
+
+        <EditText
+            android:id="@+id/searchUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Isikan Username"
+            android:visibility="gone"/>
+
+        <EditText
+            android:id="@+id/searchBarang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Isikan Barang"
+            android:visibility="gone"/>
+
+        <EditText
+            android:id="@+id/searchDeskripsi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Isikan Deskripsi"
+            android:visibility="gone"/>
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPengajuan"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="16dp"
-        app:layout_constraintTop_toBottomOf="@id/titlePengajuan"
+        app:layout_constraintTop_toBottomOf="@id/filterLayout"
         app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
