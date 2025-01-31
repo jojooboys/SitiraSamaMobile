@@ -5,6 +5,12 @@ import android.os.Bundle
 import android.text.InputType
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.example.sitirasama.model.UserRequest
+import com.example.sitirasama.service.ApiClient
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -29,26 +35,12 @@ class RegisterActivity : AppCompatActivity() {
         // Toggle Password Visibility
         passwordToggle.setOnClickListener {
             isPasswordVisible = !isPasswordVisible
-            if (isPasswordVisible) {
-                passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                passwordToggle.setImageResource(android.R.drawable.ic_menu_close_clear_cancel) // Ubah ikon menjadi "X"
-            } else {
-                passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                passwordToggle.setImageResource(android.R.drawable.ic_menu_view) // Kembalikan ikon "eye"
-            }
-            passwordEditText.setSelection(passwordEditText.text.length) // Posisikan kursor di akhir teks
+            togglePasswordVisibility(passwordEditText, passwordToggle, isPasswordVisible)
         }
 
         confirmPasswordToggle.setOnClickListener {
             isConfirmPasswordVisible = !isConfirmPasswordVisible
-            if (isConfirmPasswordVisible) {
-                confirmPasswordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                confirmPasswordToggle.setImageResource(android.R.drawable.ic_menu_close_clear_cancel) // Ubah ikon menjadi "X"
-            } else {
-                confirmPasswordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                confirmPasswordToggle.setImageResource(android.R.drawable.ic_menu_view) // Kembalikan ikon "eye"
-            }
-            confirmPasswordEditText.setSelection(confirmPasswordEditText.text.length) // Posisikan kursor di akhir teks
+            togglePasswordVisibility(confirmPasswordEditText, confirmPasswordToggle, isConfirmPasswordVisible)
         }
 
         // Register Button Click Listener
@@ -60,20 +52,67 @@ class RegisterActivity : AppCompatActivity() {
             val status = statusEditText.text.toString().lowercase()
 
             if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Username, Email, dan Password tidak boleh kosong!", Toast.LENGTH_SHORT).show()
+                showToast("Username, Email, dan Password tidak boleh kosong!")
+                return@setOnClickListener
             }
+
             if (password != confirmPassword) {
-                Toast.makeText(this, "Password dan Confirm Password harus sama!", Toast.LENGTH_SHORT).show()
-            } else if (status != "satpam" && status != "mahasiswa") {
-                Toast.makeText(this, "Status harus 'satpam' atau 'mahasiswa'!", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Registrasi berhasil!", Toast.LENGTH_SHORT).show()
+                showToast("Password dan Confirm Password harus sama!")
+                return@setOnClickListener
             }
+
+            if (status != "satpam" && status != "mahasiswa") {
+                showToast("Status harus 'satpam' atau 'mahasiswa'!")
+                return@setOnClickListener
+            }
+
+            // Panggil API Register
+            registerUser(username, email, password, status)
         }
 
         // Navigasi ke Login
         loginTextView.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
+    }
+
+    private fun registerUser(username: String, email: String, password: String, status: String) {
+        val userRequest = UserRequest(
+            username = username,
+            email = email,
+            password = password,
+            status = status
+        )
+
+        ApiClient.apiService.createUser(userRequest).enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    showToast("Registrasi berhasil! Akun: $email telah dibuat.")
+                    startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
+                    finish()
+                } else {
+                    showToast("Registrasi gagal: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                showToast("Terjadi kesalahan: ${t.message}")
+            }
+        })
+    }
+
+    private fun togglePasswordVisibility(editText: EditText, button: ImageButton, isVisible: Boolean) {
+        if (isVisible) {
+            editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            button.setImageResource(android.R.drawable.ic_menu_close_clear_cancel)
+        } else {
+            editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            button.setImageResource(android.R.drawable.ic_menu_view)
+        }
+        editText.setSelection(editText.text.length) // Posisikan kursor di akhir teks
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
