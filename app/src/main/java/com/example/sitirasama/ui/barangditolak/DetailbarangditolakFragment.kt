@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import com.example.sitirasama.R
 import com.example.sitirasama.model.UserResponse
@@ -22,6 +23,7 @@ class DetailbarangditolakFragment : Fragment() {
     private var barangDitolak: UserResponse? = null
     private lateinit var btnDelete: Button
     private lateinit var btnUpdateAlasan: Button
+    private lateinit var txtAlasan: TextView // ✅ Tambahkan deklarasi txtAlasan di sini
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val root = inflater.inflate(R.layout.fragment_detailbarangditolak, container, false)
@@ -31,19 +33,8 @@ class DetailbarangditolakFragment : Fragment() {
         Log.d("Detailbarangditolak", "Menerima arguments: ${arguments?.keySet()}")
 
         // ✅ Coba ambil data dari arguments
-        if (arguments == null) {
-            Log.e("Detailbarangditolak", "Arguments null! Navigasi kembali.")
-            Toast.makeText(context, "Tidak ada data barang ditolak!", Toast.LENGTH_SHORT).show()
-            findNavController().navigateUp()
-            return root
-        }
-
-        try {
-            barangDitolak = arguments?.getSerializable("barangDitolak") as? UserResponse
-            Log.d("Detailbarangditolak", "Data yang diterima: $barangDitolak")
-        } catch (e: Exception) {
-            Log.e("Detailbarangditolak", "Error parsing data: ${e.message}")
-        }
+        barangDitolak = arguments?.getSerializable("barangDitolak") as? UserResponse
+        Log.d("Detailbarangditolak", "Data yang diterima: $barangDitolak")
 
         // ✅ Cek apakah data diterima dengan benar
         if (barangDitolak == null) {
@@ -55,7 +46,7 @@ class DetailbarangditolakFragment : Fragment() {
 
         val txtBarang: TextView = root.findViewById(R.id.textBarang)
         val txtDeskripsi: TextView = root.findViewById(R.id.textDeskripsi)
-        val txtAlasan: TextView = root.findViewById(R.id.textAlasan)
+        txtAlasan = root.findViewById(R.id.textAlasan) // ✅ Pastikan txtAlasan dideklarasikan setelah root
 
         btnDelete = root.findViewById(R.id.btnDeleteBarangDitolak)
         btnUpdateAlasan = root.findViewById(R.id.btnUpdateAlasan)
@@ -75,6 +66,18 @@ class DetailbarangditolakFragment : Fragment() {
             }
         }
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // ✅ Dengarkan hasil update dari AlasanFragment
+        setFragmentResultListener("updateAlasan") { _, bundle ->
+            val newAlasan = bundle.getString("newAlasan")
+
+            barangDitolak?.alasan = newAlasan
+            txtAlasan.text = newAlasan ?: "Alasan belum ditambahkan"
+        }
     }
 
 

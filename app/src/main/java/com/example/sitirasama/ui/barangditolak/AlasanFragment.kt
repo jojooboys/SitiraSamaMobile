@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.example.sitirasama.R
 import com.example.sitirasama.model.UserRequest
@@ -51,6 +52,11 @@ class AlasanFragment : Fragment() {
                 .enqueue(object : Callback<ResponseBody> {
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                         if (response.isSuccessful) {
+                            // Kirim hasil ke DetailbarangditolakFragment
+                            setFragmentResult("updateAlasan", Bundle().apply {
+                                putString("newAlasan", alasan)
+                            })
+
                             Toast.makeText(context, "Alasan berhasil diperbarui", Toast.LENGTH_SHORT).show()
                             findNavController().navigateUp()
                         } else {
