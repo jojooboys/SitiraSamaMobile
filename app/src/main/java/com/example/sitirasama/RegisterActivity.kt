@@ -3,6 +3,7 @@ package com.example.sitirasama
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.sitirasama.model.UserRequest
@@ -26,11 +27,31 @@ class RegisterActivity : AppCompatActivity() {
         val emailEditText = findViewById<EditText>(R.id.editTextEmail)
         val passwordEditText = findViewById<EditText>(R.id.editTextPassword)
         val confirmPasswordEditText = findViewById<EditText>(R.id.editTextConfirmPassword)
-        val statusEditText = findViewById<EditText>(R.id.editTextStatus)
+        val spinnerStatus = findViewById<Spinner>(R.id.spinnerStatus)
         val registerButton = findViewById<Button>(R.id.buttonRegister)
         val loginTextView = findViewById<TextView>(R.id.textLogin)
         val passwordToggle = findViewById<ImageButton>(R.id.passwordToggle)
         val confirmPasswordToggle = findViewById<ImageButton>(R.id.confirmPasswordToggle)
+
+        // Data untuk Spinner
+        val statusOptions = arrayOf("satpam", "mahasiswa")
+
+        // Adapter untuk Spinner
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, statusOptions)
+        spinnerStatus.adapter = adapter
+
+        // Variable untuk menyimpan status yang dipilih
+        var selectedStatus = statusOptions[0] // Default: satpam
+
+        spinnerStatus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                selectedStatus = statusOptions[position] // Simpan status yang dipilih
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Tidak perlu aksi jika tidak ada yang dipilih
+            }
+        }
 
         // Toggle Password Visibility
         passwordToggle.setOnClickListener {
@@ -49,7 +70,7 @@ class RegisterActivity : AppCompatActivity() {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
             val confirmPassword = confirmPasswordEditText.text.toString()
-            val status = statusEditText.text.toString().lowercase()
+            val status = selectedStatus
 
             if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 showToast("Username, Email, dan Password tidak boleh kosong!")
@@ -87,7 +108,7 @@ class RegisterActivity : AppCompatActivity() {
         ApiClient.apiService.createUser(userRequest).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
-                    showToast("Registrasi berhasil! Akun: $email telah dibuat.")
+                    showToast("Registrasi berhasil! Akun: $username dengan role $status telah dibuat.")
                     startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
                     finish()
                 } else {
