@@ -20,13 +20,11 @@ import retrofit2.Response
 
 class DetailpengajuanFragment : Fragment() {
 
-    private lateinit var sessionManager: SessionManager
     private lateinit var pengajuan: UserResponse
+    private var userStatus: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val root = inflater.inflate(R.layout.fragment_detailpengajuan, container, false)
-
-        sessionManager = SessionManager(requireContext())
 
         // ✅ Ambil data dari Bundle sebagai Serializable
         pengajuan = arguments?.getSerializable("pengajuan") as UserResponse
@@ -42,15 +40,38 @@ class DetailpengajuanFragment : Fragment() {
         deleteButton.setOnClickListener { confirmDelete() }
 
         // ✅ Cek apakah pengguna adalah "satpam", jika iya maka tombol Terima & Tolak muncul
-        if (sessionManager.getStatus() == "satpam") {
-            terimaButton.visibility = View.VISIBLE
-            tolakButton.visibility = View.VISIBLE
+        // ✅ Panggil API untuk mendapatkan status pengguna
+        getUserProfile { status ->
+            userStatus = status
+            if (userStatus == "satpam") {
+                terimaButton.visibility = View.VISIBLE
+                tolakButton.visibility = View.VISIBLE
 
-            terimaButton.setOnClickListener { updatePengajuanStatus("terima") }
-            tolakButton.setOnClickListener { updatePengajuanStatus("tolak") }
+                terimaButton.setOnClickListener { updatePengajuanStatus("terima") }
+                tolakButton.setOnClickListener { updatePengajuanStatus("tolak") }
+            }
         }
 
         return root
+    }
+
+    private fun getUserProfile(callback: (String?) -> Unit) {
+        ApiClient.apiService.getProfil().enqueue(object : Callback<UserResponse> {
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                if (response.isSuccessful) {
+                    val user = response.body()
+                    callback(user?.status)
+                } else {
+                    callback(null)
+                    Toast.makeText(context, "Gagal mengambil data profil!", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                callback(null)
+                Toast.makeText(context, "Terjadi kesalahan: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun confirmDelete() {
