@@ -28,7 +28,7 @@ class HomeFragment : Fragment() {
         fetchProfil()
 
         binding.formButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Tombol ditekan!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Silahkan mengisi formulir pengajuan!", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_navigation_home_to_formPengajuanFragment)
         }
 

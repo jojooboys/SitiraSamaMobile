@@ -1,13 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.FormpengajuanFragment">
+    android:padding="16dp">
 
     <TextView
+        android:id="@+id/textWelcome"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        android:text="Hi, silahkan mengisi formulir berikut untuk penitipan barang di satpam :)"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/textBarangLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Barang"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/textWelcome"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/editTextBarang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan nama barang yang dititipkan"
+        android:padding="10dp"
+        android:background="@android:drawable/editbox_background"
+        app:layout_constraintTop_toBottomOf="@id/textBarangLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/textDeskripsiLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deskripsi Barang"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/editTextBarang"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/editTextDeskripsi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan deskripsi barang"
+        android:padding="10dp"
+        android:background="@android:drawable/editbox_background"
+        app:layout_constraintTop_toBottomOf="@id/textDeskripsiLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/editTextDeskripsi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

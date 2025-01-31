@@ -5,63 +5,83 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
+    <!-- Home Fragment -->
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.sitirasama.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
+    <!-- Pengajuan Fragment -->
     <fragment
         android:id="@+id/navigation_pengajuan"
         android:name="com.example.sitirasama.ui.pengajuan.PengajuanFragment"
         android:label="@string/title_pengajuan"
         tools:layout="@layout/fragment_pengajuan" />
 
+    <!-- Penitipan Fragment -->
     <fragment
         android:id="@+id/navigation_penitipan"
         android:name="com.example.sitirasama.ui.penitipan.PenitipanFragment"
         android:label="@string/title_penitipan"
         tools:layout="@layout/fragment_penitipan" />
 
+    <!-- Barang Ditolak Fragment -->
     <fragment
         android:id="@+id/navigation_barangditolak"
         android:name="com.example.sitirasama.ui.barangditolak.BarangditolakFragment"
         android:label="@string/title_barangditolak"
         tools:layout="@layout/fragment_barangditolak" />
 
+    <!-- Profil Fragment -->
     <fragment
         android:id="@+id/navigation_profil"
         android:name="com.example.sitirasama.ui.profil.ProfilFragment"
         android:label="@string/title_profil"
         tools:layout="@layout/fragment_profil" />
 
+    <!-- Form Pengajuan Fragment -->
     <fragment
         android:id="@+id/formPengajuanFragment"
         android:name="com.example.sitirasama.ui.home.FormpengajuanFragment"
         android:label="Form Pengajuan"
         tools:layout="@layout/fragment_formpengajuan" />
 
+    <!-- Navigasi dari Home ke Form Pengajuan -->
     <action
         android:id="@+id/action_navigation_home_to_formPengajuanFragment"
         app:destination="@id/formPengajuanFragment" />
 
+    <!-- Navigasi dari Form Pengajuan ke Pengajuan Fragment -->
+
+    <action
+        android:id="@+id/action_formPengajuanFragment_to_navigation_home"
+        app:destination="@id/navigation_home"
+        app:popUpTo="@id/navigation_home"
+        app:popUpToInclusive="true"/>
+
+    <action
+        android:id="@+id/action_formPengajuanFragment_to_navigation_pengajuan"
+        app:destination="@id/navigation_pengajuan" />
+
+    <!-- Detail Pengajuan Fragment -->
     <fragment
         android:id="@+id/detailpengajuanFragment"
         android:name="com.example.sitirasama.ui.pengajuan.DetailpengajuanFragment"
         android:label="Detail Pengajuan"
         tools:layout="@layout/fragment_detailpengajuan">
-
         <argument
             android:name="pengajuan"
             app:argType="com.example.sitirasama.model.UserResponse"
             app:nullable="false" />
     </fragment>
 
-
+    <!-- Navigasi dari Pengajuan ke Detail Pengajuan -->
     <action
         android:id="@+id/action_navigation_pengajuan_to_detailpengajuanFragment"
         app:destination="@id/detailpengajuanFragment" />
 
+    <!-- Detail Penitipan Fragment -->
     <fragment
         android:id="@+id/detailPenitipanFragment"
         android:name="com.example.sitirasama.ui.penitipan.DetailpenitipanFragment"
@@ -73,34 +93,41 @@
             app:nullable="false" />
     </fragment>
 
+    <!-- Navigasi dari Penitipan ke Detail Penitipan -->
     <action
         android:id="@+id/action_navigation_penitipan_to_detailPenitipanFragment"
         app:destination="@id/detailPenitipanFragment" />
 
+    <!-- Detail Barang Ditolak Fragment -->
     <fragment
         android:id="@+id/detailBarangditolakFragment"
         android:name="com.example.sitirasama.ui.barangditolak.DetailbarangditolakFragment"
         android:label="Detail Barang Ditolak"
         tools:layout="@layout/fragment_detailbarangditolak">
-        <argument android:name="barangDitolak"
+        <argument
+            android:name="barangDitolak"
             app:argType="com.example.sitirasama.model.UserResponse"
             app:nullable="false"/>
     </fragment>
 
+    <!-- Navigasi dari Barang Ditolak ke Detail Barang Ditolak -->
     <action
         android:id="@+id/action_navigation_barangditolak_to_detailBarangditolakFragment"
         app:destination="@id/detailBarangditolakFragment" />
 
+    <!-- Alasan Fragment -->
     <fragment
         android:id="@+id/alasanFragment"
         android:name="com.example.sitirasama.ui.barangditolak.AlasanFragment"
         android:label="Alasan Penolakan"
         tools:layout="@layout/fragment_alasan">
-        <argument android:name="barangDitolak"
+        <argument
+            android:name="barangDitolak"
             app:argType="com.example.sitirasama.model.UserResponse"
             app:nullable="false"/>
     </fragment>
 
+    <!-- Navigasi dari Detail Barang Ditolak ke Alasan Fragment -->
     <action
         android:id="@+id/action_detailBarangditolakFragment_to_alasanFragment"
         app:destination="@id/alasanFragment" />
