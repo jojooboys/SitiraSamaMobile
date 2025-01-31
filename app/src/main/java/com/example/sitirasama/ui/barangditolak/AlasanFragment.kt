@@ -1,14 +1,11 @@
 package com.example.sitirasama.ui.barangditolak
 
+import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.view.*
+import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.sitirasama.R
 import com.example.sitirasama.model.UserRequest
 import com.example.sitirasama.model.UserResponse
@@ -20,56 +17,51 @@ import retrofit2.Response
 
 class AlasanFragment : Fragment() {
 
-    private var idBarangDitolak: Int? = null
-    private lateinit var editTextAlasan: EditText
+    private var barangDitolak: UserResponse? = null
+    private lateinit var edtAlasan: EditText
+    private lateinit var btnSubmit: Button
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val root = inflater.inflate(R.layout.fragment_alasan, container, false)
+        barangDitolak = arguments?.getSerializable("barangDitolak") as? UserResponse
 
-        editTextAlasan = root.findViewById(R.id.editTextAlasan)
-        val buttonSubmit = root.findViewById<Button>(R.id.buttonSubmit)
-        val buttonCancel = root.findViewById<Button>(R.id.buttonCancel)
+        val txtAlasan = root.findViewById<TextView>(R.id.textAlasan)
+        edtAlasan = root.findViewById(R.id.editTextAlasan)
+        btnSubmit = root.findViewById(R.id.btnSubmitAlasan)
 
-        idBarangDitolak = arguments?.getInt("id_barang")
+        txtAlasan.text = "Alasan Penolakan"
+        edtAlasan.setText(barangDitolak?.alasan ?: "")
 
-        buttonSubmit.setOnClickListener { updateAlasanPenolakan() }
-        buttonCancel.setOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() } // ✅ Perbaikan Deprecation Warning
-
+        btnSubmit.setOnClickListener { confirmSubmitAlasan() }
         return root
     }
 
+    private fun confirmSubmitAlasan() {
+        AlertDialog.Builder(requireContext())
+            .setMessage("Apakah Anda yakin memberikan alasan ini?")
+            .setPositiveButton("Yes") { _, _ -> updateAlasanPenolakan() }
+            .setNegativeButton("No", null)
+            .show()
+    }
+
     private fun updateAlasanPenolakan() {
-        val id = idBarangDitolak ?: return
-        val alasan = editTextAlasan.text.toString().trim()
+        barangDitolak?.id?.let { id ->
+            val alasan = edtAlasan.text.toString()
+            ApiClient.apiService.patchBarangDitolak(UserRequest(id = id, alasan = alasan))
+                .enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        if (response.isSuccessful) {
+                            Toast.makeText(context, "Alasan berhasil diperbarui", Toast.LENGTH_SHORT).show()
+                            findNavController().navigateUp()
+                        } else {
+                            Toast.makeText(context, "Gagal memperbarui alasan", Toast.LENGTH_SHORT).show()
+                        }
+                    }
 
-        if (alasan.isEmpty()) {
-            Toast.makeText(context, "Masukkan alasan penolakan!", Toast.LENGTH_SHORT).show()
-            return
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Toast.makeText(context, "Kesalahan jaringan: ${t.message}", Toast.LENGTH_SHORT).show()
+                    }
+                })
         }
-
-        val request = UserRequest().apply {
-            this.id = id
-            this.alasan = alasan
-        }
-
-        ApiClient.apiService.patchBarangDitolak(request).enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                if (response.isSuccessful) {
-                    Log.d("API_DEBUG", "Barang berhasil diperbarui")
-                    Toast.makeText(context, "Alasan penolakan berhasil diperbarui", Toast.LENGTH_SHORT).show()
-                    requireActivity().onBackPressedDispatcher.onBackPressed() // ✅ Perbaikan Deprecation Warning
-                } else {
-                    Log.e("API_DEBUG", "Gagal memperbarui barang: ${response.errorBody()?.string()}")
-                    Toast.makeText(context, "Gagal memperbarui alasan!", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.e("API_DEBUG", "Terjadi kesalahan: ${t.message}")
-                Toast.makeText(context, "Kesalahan koneksi ke server!", Toast.LENGTH_SHORT).show()
-            }
-        })
     }
 }

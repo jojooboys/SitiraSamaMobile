@@ -77,4 +77,32 @@
         android:id="@+id/action_navigation_penitipan_to_detailPenitipanFragment"
         app:destination="@id/detailPenitipanFragment" />
 
+    <fragment
+        android:id="@+id/detailBarangDitolakFragment"
+        android:name="com.example.sitirasama.ui.barangditolak.DetailbarangditolakFragment"
+        android:label="Detail Barang Ditolak"
+        tools:layout="@layout/fragment_detailbarangditolak">
+        <argument android:name="barangDitolak"
+            app:argType="com.example.sitirasama.model.UserResponse"
+            app:nullable="false"/>
+    </fragment>
+
+    <action
+        android:id="@+id/action_navigation_barangditolak_to_detailBarangditolakFragment"
+        app:destination="@id/detailPenitipanFragment" />
+
+    <fragment
+        android:id="@+id/alasanFragment"
+        android:name="com.example.sitirasama.ui.barangditolak.AlasanFragment"
+        android:label="Alasan Penolakan"
+        tools:layout="@layout/fragment_alasan">
+        <argument android:name="barangDitolak"
+            app:argType="com.example.sitirasama.model.UserResponse"
+            app:nullable="false"/>
+    </fragment>
+
+    <action
+        android:id="@+id/action_detailBarangditolakFragment_to_alasanFragment"
+        app:destination="@id/alasanFragment" />
+
 </navigation>
