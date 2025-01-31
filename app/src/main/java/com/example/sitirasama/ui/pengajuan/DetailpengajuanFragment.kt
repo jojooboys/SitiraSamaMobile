@@ -39,16 +39,15 @@ class DetailpengajuanFragment : Fragment() {
         // ✅ Pastikan Delete Button memunculkan dialog konfirmasi
         deleteButton.setOnClickListener { confirmDelete() }
 
-        // ✅ Cek apakah pengguna adalah "satpam", jika iya maka tombol Terima & Tolak muncul
-        // ✅ Panggil API untuk mendapatkan status pengguna
+        // ✅ Panggil API untuk mendapatkan status pengguna dan atur tampilan tombol
         getUserProfile { status ->
             userStatus = status
             if (userStatus == "satpam") {
                 terimaButton.visibility = View.VISIBLE
                 tolakButton.visibility = View.VISIBLE
 
-                terimaButton.setOnClickListener { updatePengajuanStatus("terima") }
-                tolakButton.setOnClickListener { updatePengajuanStatus("tolak") }
+                terimaButton.setOnClickListener { confirmUpdateStatus("terima") }
+                tolakButton.setOnClickListener { confirmUpdateStatus("tolak") }
             }
         }
 
@@ -99,13 +98,27 @@ class DetailpengajuanFragment : Fragment() {
         })
     }
 
+    private fun confirmUpdateStatus(status: String) {
+        val message = if (status == "terima") {
+            "Apakah Anda yakin akan menerima barang ini?"
+        } else {
+            "Apakah Anda yakin akan menolak barang ini?"
+        }
+
+        AlertDialog.Builder(requireContext())
+            .setMessage(message)
+            .setPositiveButton("Yes") { _, _ -> updatePengajuanStatus(status) }
+            .setNegativeButton("No", null)
+            .show()
+    }
+
     private fun updatePengajuanStatus(status: String) {
         val request = UserRequest(id = pengajuan.id, status = status) // ✅ Gunakan objek `UserRequest`
 
         ApiClient.apiService.patchPengajuan(request).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(context, "Pengajuan berhasil $status", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Pengajuan berhasil di$status", Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack() // ✅ Kembali ke PengajuanFragment setelah update
                 } else {
                     Toast.makeText(context, "Gagal memperbarui status pengajuan", Toast.LENGTH_SHORT).show()
