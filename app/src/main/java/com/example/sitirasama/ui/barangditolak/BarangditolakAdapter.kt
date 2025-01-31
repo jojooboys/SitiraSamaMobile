@@ -15,7 +15,7 @@ class BarangditolakAdapter(
 ) : RecyclerView.Adapter<BarangditolakAdapter.BarangDitolakViewHolder>() {
 
     class BarangDitolakViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val cardBarangDitolak: CardView = view.findViewById(R.id.cardBarangditolak)
+        val cardBarangditolak: CardView = view.findViewById(R.id.cardBarangditolak)
         val textId: TextView = view.findViewById(R.id.textId)
         val textUsername: TextView = view.findViewById(R.id.textUsername)
         val textBarang: TextView = view.findViewById(R.id.textBarang)
@@ -30,13 +30,16 @@ class BarangditolakAdapter(
 
     override fun onBindViewHolder(holder: BarangDitolakViewHolder, position: Int) {
         val item = barangDitolakList[position]
+
         holder.textId.text = "ID: ${item.id}"
         holder.textUsername.text = "Username: ${item.username}"
         holder.textBarang.text = "Barang: ${item.barang}"
         holder.textDeskripsi.text = "Deskripsi: ${item.deskripsi}"
         holder.textAlasan.text = "Alasan: ${item.alasan ?: "Alasan belum ditambahkan"}"
 
-        holder.cardBarangDitolak.setOnClickListener { onItemClick(item) }
+        holder.cardBarangditolak.setOnClickListener {
+            onItemClick(item) // ✅ Pastikan data dikirim ke DetailbarangditolakFragment
+        }
     }
 
     override fun getItemCount(): Int = barangDitolakList.size

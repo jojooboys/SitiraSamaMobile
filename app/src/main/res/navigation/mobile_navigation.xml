@@ -78,7 +78,7 @@
         app:destination="@id/detailPenitipanFragment" />
 
     <fragment
-        android:id="@+id/detailBarangDitolakFragment"
+        android:id="@+id/detailBarangditolakFragment"
         android:name="com.example.sitirasama.ui.barangditolak.DetailbarangditolakFragment"
         android:label="Detail Barang Ditolak"
         tools:layout="@layout/fragment_detailbarangditolak">
@@ -89,7 +89,7 @@
 
     <action
         android:id="@+id/action_navigation_barangditolak_to_detailBarangditolakFragment"
-        app:destination="@id/detailPenitipanFragment" />
+        app:destination="@id/detailBarangditolakFragment" />
 
     <fragment
         android:id="@+id/alasanFragment"

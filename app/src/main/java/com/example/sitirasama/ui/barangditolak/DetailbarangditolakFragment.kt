@@ -2,6 +2,7 @@ package com.example.sitirasama.ui.barangditolak
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
@@ -25,7 +26,32 @@ class DetailbarangditolakFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val root = inflater.inflate(R.layout.fragment_detailbarangditolak, container, false)
         sessionManager = SessionManager(requireContext())
-        barangDitolak = arguments?.getSerializable("barangDitolak") as? UserResponse
+
+        // ✅ Log debugging untuk melihat arguments yang diterima
+        Log.d("Detailbarangditolak", "Menerima arguments: ${arguments?.keySet()}")
+
+        // ✅ Coba ambil data dari arguments
+        if (arguments == null) {
+            Log.e("Detailbarangditolak", "Arguments null! Navigasi kembali.")
+            Toast.makeText(context, "Tidak ada data barang ditolak!", Toast.LENGTH_SHORT).show()
+            findNavController().navigateUp()
+            return root
+        }
+
+        try {
+            barangDitolak = arguments?.getSerializable("barangDitolak") as? UserResponse
+            Log.d("Detailbarangditolak", "Data yang diterima: $barangDitolak")
+        } catch (e: Exception) {
+            Log.e("Detailbarangditolak", "Error parsing data: ${e.message}")
+        }
+
+        // ✅ Cek apakah data diterima dengan benar
+        if (barangDitolak == null) {
+            Log.e("Detailbarangditolak", "Barang ditolak null setelah parsing.")
+            Toast.makeText(context, "Data tidak ditemukan!", Toast.LENGTH_SHORT).show()
+            findNavController().navigateUp()
+            return root
+        }
 
         val txtBarang: TextView = root.findViewById(R.id.textBarang)
         val txtDeskripsi: TextView = root.findViewById(R.id.textDeskripsi)
@@ -34,8 +60,9 @@ class DetailbarangditolakFragment : Fragment() {
         btnDelete = root.findViewById(R.id.btnDeleteBarangDitolak)
         btnUpdateAlasan = root.findViewById(R.id.btnUpdateAlasan)
 
-        txtBarang.text = barangDitolak?.barang
-        txtDeskripsi.text = barangDitolak?.deskripsi
+        // ✅ Pastikan data yang diterima ditampilkan di UI
+        txtBarang.text = barangDitolak?.barang ?: "Barang tidak diketahui"
+        txtDeskripsi.text = barangDitolak?.deskripsi ?: "Deskripsi tidak diketahui"
         txtAlasan.text = barangDitolak?.alasan ?: "Alasan belum ditambahkan"
 
         getUserProfile { status ->
@@ -49,6 +76,7 @@ class DetailbarangditolakFragment : Fragment() {
         }
         return root
     }
+
 
     private fun confirmDelete() {
         AlertDialog.Builder(requireContext())
@@ -98,7 +126,7 @@ class DetailbarangditolakFragment : Fragment() {
 
     private fun navigateToAlasanFragment() {
         val bundle = Bundle().apply {
-            putSerializable("barangDitolak", barangDitolak)
+            putSerializable("barangDitolak", barangDitolak) // ✅ Pastikan data dikirim dengan Serializable
         }
         findNavController().navigate(R.id.action_detailBarangditolakFragment_to_alasanFragment, bundle)
     }
