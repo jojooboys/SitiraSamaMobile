@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.example.sitirasama.R
 import com.example.sitirasama.model.UserRequest
 import com.example.sitirasama.service.ApiClient
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,8 +48,8 @@ class UbahpasswordFragment : Fragment() {
 
         val request = UserRequest(oldPassword = oldPassword, newPassword = newPassword)
 
-        ApiClient.apiService.updatePassword(request).enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+        ApiClient.apiService.updatePassword(request).enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Password berhasil diperbarui!", Toast.LENGTH_SHORT).show()
                     requireActivity().onBackPressedDispatcher.onBackPressed() // ✅ Perbaikan Deprecation Warning
@@ -57,7 +58,7 @@ class UbahpasswordFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Toast.makeText(context, "Terjadi kesalahan: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })

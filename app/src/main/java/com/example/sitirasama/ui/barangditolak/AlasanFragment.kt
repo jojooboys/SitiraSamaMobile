@@ -13,6 +13,7 @@ import com.example.sitirasama.R
 import com.example.sitirasama.model.UserRequest
 import com.example.sitirasama.model.UserResponse
 import com.example.sitirasama.service.ApiClient
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,8 +54,8 @@ class AlasanFragment : Fragment() {
             this.alasan = alasan
         }
 
-        ApiClient.apiService.patchBarangDitolak(request).enqueue(object : Callback<UserResponse> {
-            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+        ApiClient.apiService.patchBarangDitolak(request).enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Log.d("API_DEBUG", "Barang berhasil diperbarui")
                     Toast.makeText(context, "Alasan penolakan berhasil diperbarui", Toast.LENGTH_SHORT).show()
@@ -65,7 +66,7 @@ class AlasanFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.e("API_DEBUG", "Terjadi kesalahan: ${t.message}")
                 Toast.makeText(context, "Kesalahan koneksi ke server!", Toast.LENGTH_SHORT).show()
             }

@@ -16,20 +16,20 @@ interface UsersAPI {
     fun loginUser(@Body request: UserRequest): Call<UserResponse>
 
     @GET("api/auth/profil")
-    fun getProfil(): Call<UserResponse>  // ✅ Hapus parameter `token`
+    fun getProfil(): Call<UserResponse>
 
     @PATCH("api/auth/profil")
-    fun updateProfil(@Body request: UserRequest): Call<String>  // ✅ Hapus parameter `token`
+    fun updateProfil(@Body request: UserRequest): Call<ResponseBody>
 
     @PATCH("api/auth/gantiPassword")
-    fun updatePassword(@Body request: UserRequest): Call<String>  // ✅ Hapus parameter `token`
+    fun updatePassword(@Body request: UserRequest): Call<ResponseBody>
 
     @DELETE("api/auth/akun/{email}")
-    fun deleteUser(@Path("email") email: String): Call<String>  // ✅ Hapus parameter `token`
+    fun deleteUser(@Path("email") email: String): Call<ResponseBody>
 
     // 🔹 Endpoint untuk Pengajuan Barang
     @POST("api/auth/barang")
-    fun createPengajuan(@Body request: UserRequest): Call<UserResponse>  // ✅ Hapus parameter `token`
+    fun createPengajuan(@Body request: UserRequest): Call<ResponseBody>
 
     @GET("api/auth/pengajuan")
     fun getPengajuan(): Call<List<UserResponse>>  // ✅ Hapus parameter `token`
@@ -45,18 +45,18 @@ interface UsersAPI {
     fun getBarang(): Call<List<UserResponse>>  // ✅ Hapus parameter `token`
 
     @PATCH("api/auth/barang/{id}")
-    fun patchBarang(@Path("id") id: Int, @Body request: UserRequest): Call<UserResponse>  // ✅ Hapus parameter `token`
+    fun patchBarang(@Path("id") id: Int, @Body request: UserRequest): Call<ResponseBody>  // ✅ Hapus parameter `token`
 
     @DELETE("api/auth/barang/{id}")
-    fun deleteBarang(@Path("id") id: Int): Call<String>  // ✅ Hapus parameter `token`
+    fun deleteBarang(@Path("id") id: Int): Call<ResponseBody>  // ✅ Hapus parameter `token`
 
     // 🔹 Endpoint untuk Barang Ditolak
     @GET("api/auth/barang/tolak")
     fun getBarangDitolak(): Call<List<UserResponse>>  // ✅ Hapus parameter `token`
 
     @PATCH("api/auth/barang/tolak")
-    fun patchBarangDitolak(@Body request: UserRequest): Call<UserResponse>  // ✅ Hapus parameter `token`
+    fun patchBarangDitolak(@Body request: UserRequest): Call<ResponseBody>  // ✅ Hapus parameter `token`
 
     @DELETE("api/auth/barang/tolak/{id}")
-    fun deleteBarangDitolak(@Path("id") id: Int): Call<String>  // ✅ Hapus parameter `token`
+    fun deleteBarangDitolak(@Path("id") id: Int): Call<ResponseBody>  // ✅ Hapus parameter `token`
 }
