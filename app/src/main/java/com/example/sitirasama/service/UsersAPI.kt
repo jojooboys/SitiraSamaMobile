@@ -2,6 +2,7 @@ package com.example.sitirasama.service
 
 import com.example.sitirasama.model.UserRequest
 import com.example.sitirasama.model.UserResponse
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -9,7 +10,7 @@ interface UsersAPI {
 
     // 🔹 Endpoint untuk Autentikasi
     @POST("api/auth/register")
-    fun createUser(@Body request: UserRequest): Call<UserResponse>
+    fun createUser(@Body request: UserRequest): Call<ResponseBody>
 
     @POST("api/auth/login")
     fun loginUser(@Body request: UserRequest): Call<UserResponse>

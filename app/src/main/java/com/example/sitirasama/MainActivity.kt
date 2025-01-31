@@ -2,6 +2,7 @@ package com.example.sitirasama
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,7 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
 
     private lateinit var sessionManager: SessionManager
+    private var isPasswordVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +29,20 @@ class MainActivity : AppCompatActivity() {
         val passwordEditText = findViewById<EditText>(R.id.editTextTextPassword)
         val loginButton = findViewById<Button>(R.id.button)
         val registerTextView = findViewById<TextView>(R.id.textRegister)
+        val passwordToggle = findViewById<ImageButton>(R.id.imageButton)
+
+        // Toggle Password Visibility
+        passwordToggle.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+            if (isPasswordVisible) {
+                passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                passwordToggle.setImageResource(android.R.drawable.ic_menu_close_clear_cancel) // Ubah ikon menjadi "X"
+            } else {
+                passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                passwordToggle.setImageResource(android.R.drawable.ic_menu_view) // Kembalikan ikon "eye"
+            }
+            passwordEditText.setSelection(passwordEditText.text.length) // Posisikan kursor di akhir teks
+        }
 
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString().trim()
