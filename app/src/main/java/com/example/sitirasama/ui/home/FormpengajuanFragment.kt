@@ -1,5 +1,6 @@
 package com.example.sitirasama.ui.home
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
@@ -38,6 +39,7 @@ class FormpengajuanFragment : Fragment() {
 
     private fun fetchProfil() {
         ApiClient.apiService.getProfil().enqueue(object : Callback<UserResponse> {
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 if (response.isSuccessful) {
                     val user = response.body()

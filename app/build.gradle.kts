@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.libs
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -11,6 +13,7 @@ android {
     defaultConfig {
         applicationId = "com.example.sitirasama"
         minSdk = 24
+        //noinspection OldTargetApi
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -19,6 +22,7 @@ android {
     }
 
     buildFeatures {
+        //noinspection DataBindingWithoutKapt
         dataBinding = true
         viewBinding = true
     }
@@ -47,29 +51,29 @@ android {
 
 dependencies {
 
-    implementation ("androidx.core:core-ktx:1.12.0")
-    implementation ("androidx.appcompat:appcompat:1.6.1")
-    implementation ("com.google.android.material:material:1.9.0")
-    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.7")
-    implementation ("androidx.navigation:navigation-ui-ktx:2.7.7")
-    implementation ("androidx.cardview:cardview:1.0.0")
+    implementation (libs.androidx.core.ktx.v1120)
+    implementation (libs.androidx.appcompat.v161)
+    implementation (libs.material.v190)
+    implementation (libs.androidx.lifecycle.livedata.ktx)
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.navigation.fragment.ktx)
+    implementation (libs.androidx.navigation.ui.ktx)
+    implementation (libs.androidx.cardview)
 
     // Retrofit untuk komunikasi dengan API
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
 
     // OkHttp untuk logging request/response API
-    implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
+    implementation (libs.logging.interceptor)
 
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
     // ✅ Tambahkan dependency Safe Args jika belum ada
-    implementation("androidx.navigation:navigation-dynamic-features-fragment:2.7.7")
+    implementation(libs.androidx.navigation.dynamic.features.fragment)
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
+    implementation(libs.kotlin.stdlib)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.example.sitirasama.MainActivity
 import com.example.sitirasama.R
 import com.example.sitirasama.model.UserRequest

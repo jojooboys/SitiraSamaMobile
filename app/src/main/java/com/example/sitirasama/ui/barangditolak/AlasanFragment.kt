@@ -1,5 +1,6 @@
 package com.example.sitirasama.ui.barangditolak
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
@@ -16,12 +17,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@Suppress("DEPRECATION")
 class AlasanFragment : Fragment() {
 
     private var barangDitolak: UserResponse? = null
     private lateinit var edtAlasan: EditText
     private lateinit var btnSubmit: Button
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val root = inflater.inflate(R.layout.fragment_alasan, container, false)
         barangDitolak = arguments?.getSerializable("barangDitolak") as? UserResponse

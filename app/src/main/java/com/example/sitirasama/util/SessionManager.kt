@@ -32,14 +32,6 @@ class SessionManager(context: Context) {
         return token
     }
 
-    fun getUsername(): String? {
-        return sharedPreferences.getString(USERNAME_KEY, null)
-    }
-
-    fun getStatus(): String? {
-        return sharedPreferences.getString(STATUS_KEY, null)
-    }
-
     fun clearSession() {
         val editor = sharedPreferences.edit()
         editor.clear().apply()

@@ -1,5 +1,6 @@
 package com.example.sitirasama.ui.pengajuan
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ class PengajuanAdapter(
         return PengajuanViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: PengajuanViewHolder, position: Int) {
         val item = pengajuanList[position]
         holder.textId.text = "ID: ${item.id}"
@@ -40,6 +42,7 @@ class PengajuanAdapter(
 
     override fun getItemCount(): Int = pengajuanList.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newList: List<UserResponse>) {
         pengajuanList = newList
         notifyDataSetChanged()

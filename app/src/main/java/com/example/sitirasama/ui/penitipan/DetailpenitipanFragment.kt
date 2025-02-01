@@ -16,6 +16,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@Suppress("DEPRECATION")
 class DetailpenitipanFragment : Fragment() {
 
     private lateinit var sessionManager: SessionManager

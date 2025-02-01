@@ -1,5 +1,6 @@
 package com.example.sitirasama.ui.penitipan
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,7 @@ class PenitipanAdapter(
         return PenitipanViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: PenitipanViewHolder, position: Int) {
         val item = penitipanList[position]
         holder.textId.text = "ID: ${item.id}"
@@ -42,6 +44,7 @@ class PenitipanAdapter(
 
     override fun getItemCount(): Int = penitipanList.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newList: List<UserResponse>) {
         penitipanList = newList
         notifyDataSetChanged()

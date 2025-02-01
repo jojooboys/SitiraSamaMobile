@@ -1,5 +1,6 @@
 package com.example.sitirasama.ui.pengajuan
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
@@ -12,17 +13,18 @@ import com.example.sitirasama.R
 import com.example.sitirasama.model.UserRequest
 import com.example.sitirasama.model.UserResponse
 import com.example.sitirasama.service.ApiClient
-import com.example.sitirasama.util.SessionManager
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@Suppress("DEPRECATION")
 class DetailpengajuanFragment : Fragment() {
 
     private lateinit var pengajuan: UserResponse
     private var userStatus: String? = null
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val root = inflater.inflate(R.layout.fragment_detailpengajuan, container, false)
 
