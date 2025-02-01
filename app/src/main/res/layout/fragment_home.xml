@@ -7,6 +7,18 @@
     tools:context=".ui.home.HomeFragment">
 
     <!-- TextView untuk Menampilkan Selamat Datang -->
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="226dp"
+        android:layout_height="214dp"
+        android:layout_marginTop="88dp"
+        android:src="@drawable/logo_stis"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textWelcome"
         android:layout_width="wrap_content"
