@@ -1,5 +1,5 @@
 
-# Sistem Penitipan Barang di Satpam Mahasiswa (Sitira-Sama)
+# 📦 Sistem Penitipan Barang di Satpam Mahasiswa (Sitira-Sama)
 
 Proyek ini merupakan sistem penitipan barang berbasis API yang dibangun menggunakan **Spring Boot (Java)** untuk backend dan **Android Studio (Kotlin)** untuk frontend dalam rangka memenuhi **Ujian Akhir Semester (UAS)** mata kuliah **Pemrogaman Platform Khusus (PPK)** di **Politeknik Statistika STIS**. Sistem ini menyediakan fitur autentikasi, pengajuan penitipan barang, serta pengelolaan barang yang diterima atau ditolak oleh satpam.
 
@@ -47,20 +47,33 @@ Setelah API aktif, jalankan aplikasi Android dengan **Android Studio**:
 
 ---
 
-## 🚀 API Endpoints
-| Endpoint                     | HTTP Method | Deskripsi |
-|------------------------------|-------------|-----------|
-| `/api/auth/register`         | `POST`      | Register akun baru |
-| `/api/auth/login`            | `POST`      | Login akun |
-| `/api/auth/profil`           | `GET`       | Lihat profil akun |
-| `/api/auth/gantiPassword`    | `PATCH`     | Ganti password |
-| `/api/auth/barang`           | `POST`      | Tambah pengajuan penitipan barang |
-| `/api/auth/pengajuan`        | `GET`       | Lihat daftar pengajuan barang |
-| `/api/auth/barang/tolak`     | `GET`       | Lihat barang yang ditolak |
-| `/api/auth/barang/{id}`      | `DELETE`    | Hapus barang penitipan |
-| `/api/auth/pengajuan/{id}`   | `DELETE`    | Hapus pengajuan barang |
+## 🚀 API Endpoints Lengkap
 
-**Catatan:** Semua request API yang membutuhkan autentikasi harus menyertakan **Bearer Token**.
+| **Endpoint**                      | **HTTP Method** | **Deskripsi**                                |
+|:----------------------------------|:----------------|:---------------------------------------------|
+| **🔐 Autentikasi**                |                 |                                              |
+| `/api/auth/register`             | `POST`          | Register akun baru                           |
+| `/api/auth/login`                | `POST`          | Login akun                                   |
+| `/api/auth/profil`               | `GET`           | Lihat profil pengguna                        |
+| `/api/auth/profil`               | `PATCH`         | Update profil pengguna                       |
+| `/api/auth/gantiPassword`        | `PATCH`         | Ganti password akun                          |
+| `/api/auth/akun/{email}`         | `DELETE`        | Hapus akun berdasarkan email                 |
+|                                    |                 |                                              |
+| **📦 Pengajuan Penitipan Barang** |                 |                                              |
+| `/api/auth/barang`               | `POST`          | Tambah pengajuan penitipan barang            |
+| `/api/auth/pengajuan`            | `GET`           | Lihat daftar pengajuan barang                |
+| `/api/auth/pengajuan`            | `PATCH`         | Update data pengajuan barang                 |
+| `/api/auth/pengajuan/{id}`       | `DELETE`        | Hapus pengajuan barang berdasarkan ID        |
+|                                    |                 |                                              |
+| **📋 Manajemen Penitipan Barang** |                 |                                              |
+| `/api/auth/barang`               | `GET`           | Lihat daftar barang yang dititipkan          |
+| `/api/auth/barang/{id}`          | `PATCH`         | Update status barang penitipan               |
+| `/api/auth/barang/{id}`          | `DELETE`        | Hapus barang penitipan berdasarkan ID        |
+|                                    |                 |                                              |
+| **❌ Barang Ditolak**              |                 |                                              |
+| `/api/auth/barang/tolak`         | `GET`           | Lihat daftar barang yang ditolak             |
+| `/api/auth/barang/tolak`         | `PATCH`         | Update data barang yang ditolak              |
+| `/api/auth/barang/tolak/{id}`    | `DELETE`        | Hapus barang yang ditolak berdasarkan ID     |
 
 ---
 
@@ -68,6 +81,22 @@ Setelah API aktif, jalankan aplikasi Android dengan **Android Studio**:
 - **Backend**: Spring Boot, JWT Authentication, JPA, MySQL
 - **Frontend**: Android Studio, Kotlin, Retrofit untuk komunikasi API
 - **Database**: MySQL
+
+---
+
+## ⚠️ **Catatan Penting**
+- Semua request API yang membutuhkan autentikasi harus menyertakan **Bearer Token** di header:
+  ```http
+  Authorization: Bearer <token_anda>
+  ```
+- Gunakan **JSON** sebagai format request body, contohnya:
+  ```json
+  {
+    "nama": "Budi",
+    "email": "budi@example.com",
+    "password": "password123"
+  }
+  ```
 
 ---
 
