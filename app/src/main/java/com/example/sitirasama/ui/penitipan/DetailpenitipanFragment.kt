@@ -35,14 +35,14 @@ class DetailpenitipanFragment : Fragment() {
         btnDelete = root.findViewById(R.id.btnDeletePenitipan)
         btnUpdate = root.findViewById(R.id.btnUpdateStatusPenitipan)
 
-        // ✅ Pastikan tombol TIDAK MUNCUL sebelum status pengguna didapatkan
+        // Pastikan tombol TIDAK MUNCUL sebelum status pengguna didapatkan
         btnDelete.visibility = View.GONE
         btnUpdate.visibility = View.GONE
 
         txtBarang.text = penitipan?.barang
         txtDeskripsi.text = penitipan?.deskripsi
 
-        // ✅ Panggil API untuk mendapatkan status pengguna
+        // Panggil API untuk mendapatkan status pengguna
         getUserProfile { status ->
             userStatus = status
             if (userStatus == "satpam") {

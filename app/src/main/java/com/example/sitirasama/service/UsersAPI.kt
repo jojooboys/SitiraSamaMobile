@@ -32,31 +32,31 @@ interface UsersAPI {
     fun createPengajuan(@Body request: UserRequest): Call<ResponseBody>
 
     @GET("api/auth/pengajuan")
-    fun getPengajuan(): Call<List<UserResponse>>  // ✅ Hapus parameter `token`
+    fun getPengajuan(): Call<List<UserResponse>>
 
     @PATCH("api/auth/pengajuan")
-    fun patchPengajuan(@Body request: UserRequest): Call<ResponseBody>  // ✅ Hapus parameter `token`
+    fun patchPengajuan(@Body request: UserRequest): Call<ResponseBody>
 
     @DELETE("api/auth/pengajuan/{id}")
-    fun deletePengajuan(@Path("id") id: Int): Call<ResponseBody>  // ✅ Hapus parameter `token`
+    fun deletePengajuan(@Path("id") id: Int): Call<ResponseBody>
 
     // 🔹 Endpoint untuk Penitipan Barang
     @GET("api/auth/barang")
-    fun getBarang(): Call<List<UserResponse>>  // ✅ Hapus parameter `token`
+    fun getBarang(): Call<List<UserResponse>>
 
     @PATCH("api/auth/barang/{id}")
-    fun patchBarang(@Path("id") id: Int, @Body request: UserRequest): Call<ResponseBody>  // ✅ Hapus parameter `token`
+    fun patchBarang(@Path("id") id: Int, @Body request: UserRequest): Call<ResponseBody>
 
     @DELETE("api/auth/barang/{id}")
-    fun deleteBarang(@Path("id") id: Int): Call<ResponseBody>  // ✅ Hapus parameter `token`
+    fun deleteBarang(@Path("id") id: Int): Call<ResponseBody>
 
     // 🔹 Endpoint untuk Barang Ditolak
     @GET("api/auth/barang/tolak")
-    fun getBarangDitolak(): Call<List<UserResponse>>  // ✅ Hapus parameter `token`
+    fun getBarangDitolak(): Call<List<UserResponse>>
 
     @PATCH("api/auth/barang/tolak")
-    fun patchBarangDitolak(@Body request: UserRequest): Call<ResponseBody>  // ✅ Hapus parameter `token`
+    fun patchBarangDitolak(@Body request: UserRequest): Call<ResponseBody>
 
     @DELETE("api/auth/barang/tolak/{id}")
-    fun deleteBarangDitolak(@Path("id") id: Int): Call<ResponseBody>  // ✅ Hapus parameter `token`
+    fun deleteBarangDitolak(@Path("id") id: Int): Call<ResponseBody>
 }

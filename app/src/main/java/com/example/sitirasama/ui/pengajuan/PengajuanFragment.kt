@@ -140,7 +140,7 @@ class PengajuanFragment : Fragment() {
 
     private fun showDetailFragment(item: UserResponse) {
         val bundle = Bundle().apply {
-            putSerializable("pengajuan", item) // ✅ Gunakan Serializable
+            putSerializable("pengajuan", item)
         }
         findNavController().navigate(R.id.action_navigation_pengajuan_to_detailpengajuanFragment, bundle)
     }

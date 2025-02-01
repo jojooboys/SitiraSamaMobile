@@ -28,7 +28,7 @@ class DetailpengajuanFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val root = inflater.inflate(R.layout.fragment_detailpengajuan, container, false)
 
-        // ✅ Ambil data dari Bundle sebagai Serializable
+        // Ambil data dari Bundle sebagai Serializable
         pengajuan = arguments?.getSerializable("pengajuan") as UserResponse
 
         val textDetail = root.findViewById<TextView>(R.id.textDetail)
@@ -38,10 +38,10 @@ class DetailpengajuanFragment : Fragment() {
 
         textDetail.text = "ID: ${pengajuan.id}\nBarang: ${pengajuan.barang}\nDeskripsi: ${pengajuan.deskripsi}"
 
-        // ✅ Pastikan Delete Button memunculkan dialog konfirmasi
+        // Pastikan Delete Button memunculkan dialog konfirmasi
         deleteButton.setOnClickListener { confirmDelete() }
 
-        // ✅ Panggil API untuk mendapatkan status pengguna dan atur tampilan tombol
+        // Panggil API untuk mendapatkan status pengguna dan atur tampilan tombol
         getUserProfile { status ->
             userStatus = status
             if (userStatus == "satpam") {
@@ -88,7 +88,7 @@ class DetailpengajuanFragment : Fragment() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Pengajuan dihapus", Toast.LENGTH_SHORT).show()
-                    findNavController().popBackStack() // ✅ Kembali ke PengajuanFragment setelah berhasil menghapus
+                    findNavController().popBackStack() // Kembali ke PengajuanFragment setelah berhasil menghapus
                 } else {
                     Toast.makeText(context, "Gagal menghapus pengajuan", Toast.LENGTH_SHORT).show()
                 }
@@ -115,13 +115,13 @@ class DetailpengajuanFragment : Fragment() {
     }
 
     private fun updatePengajuanStatus(status: String) {
-        val request = UserRequest(id = pengajuan.id, status = status) // ✅ Gunakan objek `UserRequest`
+        val request = UserRequest(id = pengajuan.id, status = status)
 
         ApiClient.apiService.patchPengajuan(request).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Pengajuan berhasil di$status", Toast.LENGTH_SHORT).show()
-                    findNavController().popBackStack() // ✅ Kembali ke PengajuanFragment setelah update
+                    findNavController().popBackStack() // Kembali ke PengajuanFragment setelah update
                 } else {
                     Toast.makeText(context, "Gagal memperbarui status pengajuan", Toast.LENGTH_SHORT).show()
                 }

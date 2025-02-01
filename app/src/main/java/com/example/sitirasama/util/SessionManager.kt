@@ -2,7 +2,7 @@ package com.example.sitirasama.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log  // ✅ Tambahkan untuk debugging
+import android.util.Log
 
 class SessionManager(context: Context) {
 
@@ -23,18 +23,18 @@ class SessionManager(context: Context) {
         editor.putString(STATUS_KEY, status)
         editor.apply()
 
-        Log.d("SESSION_DEBUG", "Token disimpan: $token")  // ✅ Debugging token yang disimpan
+        Log.d("SESSION_DEBUG", "Token disimpan: $token")  // Debugging token yang disimpan
     }
 
     fun getToken(): String? {
         val token = sharedPreferences.getString(TOKEN_KEY, null)
-        Log.d("SESSION_DEBUG", "Token diambil: $token")  // ✅ Debugging token yang diambil
+        Log.d("SESSION_DEBUG", "Token diambil: $token")  // Debugging token yang diambil
         return token
     }
 
     fun clearSession() {
         val editor = sharedPreferences.edit()
         editor.clear().apply()
-        Log.d("SESSION_DEBUG", "Session dihapus!")  // ✅ Debugging saat sesi dihapus
+        Log.d("SESSION_DEBUG", "Session dihapus!")  // Debugging saat sesi dihapus
     }
 }

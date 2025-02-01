@@ -18,4 +18,4 @@ class UserResponse(
     @SerializedName("alasan") @Expose var alasan: String? = null,
     //@SerializedName("barcode") @Expose var barcode: String? = null,
     @SerializedName("statuspenitipan") @Expose var statuspenitipan: String? = null
-) : Serializable // ✅ Perbaikan: Implementasikan Serializable
+) : Serializable

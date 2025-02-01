@@ -1,5 +1,6 @@
 package com.example.sitirasama.ui.barangditolak
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,7 @@ class BarangditolakAdapter(
         return BarangDitolakViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: BarangDitolakViewHolder, position: Int) {
         val item = barangDitolakList[position]
 
@@ -44,6 +46,7 @@ class BarangditolakAdapter(
 
     override fun getItemCount(): Int = barangDitolakList.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newList: List<UserResponse>) {
         barangDitolakList = newList
         notifyDataSetChanged()

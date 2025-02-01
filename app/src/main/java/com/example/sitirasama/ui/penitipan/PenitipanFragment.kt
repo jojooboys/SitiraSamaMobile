@@ -39,7 +39,7 @@ class PenitipanFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_penitipan, container, false)
         sessionManager = SessionManager(requireContext())
 
-        recyclerViewPenitipan = root.findViewById(R.id.recyclerViewPenitipan) // ✅ FIX ID
+        recyclerViewPenitipan = root.findViewById(R.id.recyclerViewPenitipan)
         recyclerViewPenitipan.layoutManager = LinearLayoutManager(context)
 
         checkId = root.findViewById(R.id.checkId)
@@ -127,7 +127,7 @@ class PenitipanFragment : Fragment() {
 
     private fun showDetailFragment(item: UserResponse) {
         val bundle = Bundle().apply {
-            putSerializable("penitipan", item) // ✅ FIXED SERIALIZABLE
+            putSerializable("penitipan", item)
         }
         findNavController().navigate(R.id.action_navigation_penitipan_to_detailPenitipanFragment, bundle)
     }

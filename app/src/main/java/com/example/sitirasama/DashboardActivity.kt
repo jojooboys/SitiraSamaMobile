@@ -22,15 +22,15 @@ class DashboardActivity : AppCompatActivity() {
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // ✅ Inisialisasi ApiClient sebelum menggunakan API
+        // Inisialisasi ApiClient sebelum menggunakan API
         ApiClient.init(this)
 
-        // ✅ Pastikan Toolbar sudah di-set sebagai ActionBar
+        // Pastikan Toolbar sudah di-set sebagai ActionBar
         setSupportActionBar(binding.toolbar)
 
         val navView: BottomNavigationView = binding.navView
 
-        // ✅ Pastikan menggunakan `supportFragmentManager.findFragmentById()`
+        // Pastikan menggunakan `supportFragmentManager.findFragmentById()`
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_dashboard) as NavHostFragment
         navController = navHostFragment.navController
 
