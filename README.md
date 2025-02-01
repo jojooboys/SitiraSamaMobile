@@ -1,7 +1,7 @@
 
 # Penitipan Barang Satpam
 
-Proyek ini merupakan sistem penitipan barang berbasis API yang dibangun menggunakan **Spring Boot (Java)** untuk backend dan **Android Studio (Kotlin)** untuk frontend dalam rangka memenuhi Ujian Akhir Semester (UAS) mata kuliah Pemrogaman Platform Khusus (PPK) di Politeknik Statistika STIS. Sistem ini menyediakan fitur autentikasi, pengajuan penitipan barang, serta pengelolaan barang yang diterima atau ditolak oleh satpam.
+Proyek ini merupakan sistem penitipan barang berbasis API yang dibangun menggunakan **Spring Boot (Java)** untuk backend dan **Android Studio (Kotlin)** untuk frontend dalam rangka memenuhi **Ujian Akhir Semester (UAS)** mata kuliah **Pemrogaman Platform Khusus (PPK)** di **Politeknik Statistika STIS**. Sistem ini menyediakan fitur autentikasi, pengajuan penitipan barang, serta pengelolaan barang yang diterima atau ditolak oleh satpam.
 
 ## 📌 Fitur Utama
 - **Autentikasi dengan JWT** (Login, Register, Ganti Password)
